@@ -1,6 +1,6 @@
-# Train Watcher Express
+# Train Hopper Express
 
-Keep track of all the trains you want to catch
+Keep track of all the trains you want to catch.
 
 ## Instructions
 
