@@ -1,0 +1,28 @@
+body {
+    background-image: url('../images/concrete-texture.png');
+    color: rgba(15, 15, 15, 0.9);
+    z-index: 0;
+}
+
+header {
+    height: 3rem;
+    z-index: 10;
+    margin-top: -4.5rem;
+}
+
+header .container, footer .container {
+    background-color: rgba(255, 0, 0, 0.9);
+}
+
+main {
+    margin-top: 4.5rem;
+}
+
+main .container {
+    background-color: rgba(0, 255, 191, 0.9);
+    padding: 1rem;
+}
+
+footer {
+    height: 2rem;
+}
