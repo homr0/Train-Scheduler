@@ -13,6 +13,27 @@ $(document).ready(function() {
     // Assign the reference to the database
     var database = firebase.database();
 
+    // Adjust the train arrival time if the time difference is negative.
+    // Returns true if the arrival time was adjusted.
+    function adjustArrival(arrival, frequency, id) {
+        // If the arrival time is less than the current time
+        if(arrival.diff(moment(), "minutes") < 0) {
+            // Gets the earliest arrival time from now.
+            while(arrival < moment()) {
+                arrival.add(frequency, "minutes");
+            }
+
+            // Updates the arrival time in the database.
+            database.ref("trains/" + id).update({
+                arrival: arrival.format("HH:mm")
+            });
+
+            return true;
+        }
+
+        return false;
+    }
+
     // Every minute, check if the train has arrived and then update the arrival time.
     function trainArriving() {
         // For each train, the number of minutes is updated.
@@ -20,30 +41,17 @@ $(document).ready(function() {
             // Gets the current arrival time
             let time = moment($(value).children(".train-arrival").text(), "hh:mm A");
 
-            // Gets the current minutes left
-            let minutes = parseInt($(value).children(".train-next").text());
+            // Gets the frequency
+            let frequency = parseInt($(value).children(".train-frequency").text());
 
             // If the minutes left is less than 0, then set the next train arrival according to the trains frequency.
-            if(minutes < 0) {
-                // Gets the frequency
-                let frequency = parseInt($(value).children(".train-frequency").text());
-
-                // Gets the new arrival time so that it's later than the current time.
-                while(time < moment()) {
-                    time.add(frequency, "minutes");
-                }
-
-                // Put that new time into the database.
-                database.ref("trains/" + $(value).attr("id")).update({
-                    arrival: time.format("HH:mm")
-                });
-
+            if(adjustArrival(time, frequency, $(value).attr("id"))) {
                 // Sets the new arrival time
                 $(value).children(".train-arrival").text(time.format("hh:mm A"));
             }
 
             // Sets the minutes to the difference between the train arrival time and the current time.
-            minutes = time.diff(moment(), "minutes");
+            let minutes = time.diff(moment(), "minutes");
             $(value).children(".train-next").text(minutes);
         });
     }
