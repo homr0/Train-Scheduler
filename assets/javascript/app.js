@@ -19,26 +19,21 @@ $(document).ready(function() {
         $("#trainTable .train").each(function(index, value) {
             // Gets the current arrival time
             let time = moment($(value).children(".train-arrival").text(), "hh:mm A");
-            console.log(time.format("HH:mm"));
 
             // Gets the current minutes left
             let minutes = parseInt($(value).children(".train-next").text());
-            console.log(minutes);
 
             // If the minutes left is less than 0, then set the next train arrival according to the trains frequency.
             if(minutes < 0) {
                 // Gets the frequency
                 let frequency = parseInt($(value).children(".train-frequency").text());
-                console.log("Frequency: " + frequency);
 
                 // Gets the new arrival time so that it's later than the current time.
                 while(time < moment()) {
                     time.add(frequency, "minutes");
-                    console.log(time.format("HH:mm"));
                 }
 
                 // Put that new time into the database.
-                console.log($(value).attr("id"));
                 database.ref("trains/" + $(value).attr("id")).update({
                     arrival: time.format("HH:mm")
                 });
@@ -78,8 +73,6 @@ $(document).ready(function() {
 
             $("#trainTable tbody").append(trainRow);
         });
-
-        trainArriving();
     }, function(errorObject) {
         console.log("Errors handled: " + errorObject.code);
     });
@@ -105,4 +98,7 @@ $(document).ready(function() {
         // Clears the inputs
         $("#trainName, #trainDest, #trainArr, #trainFreq").val("");
     });
+
+    // Sets a timer that updates the train schedule minutes to arrival every 1 minute (60 seconds)
+    setInterval(trainArriving, 60000);
 });
