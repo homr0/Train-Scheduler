@@ -77,7 +77,14 @@ $(document).ready(function() {
 
             var trainAway = $("<td>").text(trainNext).addClass("train-next");
 
-            $(trainRow).append(trainName, trainDest, trainFreq, trainArr, trainAway);
+            // Add a button for updating and removing the trains
+            var updateTrain = $("<button>").html("<i class='far fa-edit'></i>").addClass("update");
+
+            var removeTrain = $("<button>").html("<i class='far fa-trash-alt'></i>").addClass("remove");
+
+            var trainStatus = $("<td>").append(updateTrain, removeTrain);
+
+            $(trainRow).append(trainName, trainDest, trainFreq, trainArr, trainAway, trainStatus);
 
             $("#trainTable tbody").append(trainRow);
         });
