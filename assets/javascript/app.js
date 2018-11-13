@@ -1,12 +1,12 @@
 $(document).ready(function() {
     // Initialize Firebase
     var config = {
-        apiKey: "AIzaSyAx6bhUQgob9ADv_fv9oseaNunmaoQSul8",
-        authDomain: "rh-ucrdb.firebaseapp.com",
-        databaseURL: "https://rh-ucrdb.firebaseio.com/",
-        projectId: "rh-ucrdb",
-        storageBucket: "rh-ucrdb.appspot.com",
-        messagingSenderId: "260329346405"
+        apiKey: "AIzaSyC53q9b0YiHBVE_1C7NNPPPc3XQB2-P1CM",
+        authDomain: "rh-train-scheduler.firebaseapp.com",
+        databaseURL: "https://rh-train-scheduler.firebaseio.com",
+        projectId: "rh-train-scheduler",
+        storageBucket: "rh-train-scheduler.appspot.com",
+        messagingSenderId: "576437927477"
     };
     firebase.initializeApp(config);
 
@@ -118,6 +118,9 @@ $(document).ready(function() {
 
         // Clears the inputs
         $("#trainName, #trainDest, #trainArr, #trainFreq").val("");
+
+        // Adjusts the arrival times
+        trainArriving();
     });
 
     // When the update button is clicked, the edit modal gets the current information into the fields.
