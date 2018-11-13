@@ -63,9 +63,9 @@ $(document).ready(function() {
             // The train row id is the key for easy reference.
             var trainRow = $("<tr>").attr("id", trains.key).addClass("train");
 
-            var trainName = $("<th>").text(value.name);
+            var trainName = $("<th>").text(value.name).addClass("train-name");
 
-            var trainDest = $("<td>").text(value.destination);
+            var trainDest = $("<td>").text(value.destination).addClass("train-destination");
 
             var trainFreq = $("<td>").text(value.frequency).addClass("train-frequency");
 
@@ -78,7 +78,10 @@ $(document).ready(function() {
             var trainAway = $("<td>").text(trainNext).addClass("train-next");
 
             // Add a button for updating and removing the trains
-            var updateTrain = $("<button>").html("<i class='far fa-edit'></i>").addClass("update");
+            var updateTrain = $("<button>").html("<i class='far fa-edit'></i>").addClass("update").attr({
+                "data-toggle": "modal",
+                "data-target": "#editTrain"
+            });
 
             var removeTrain = $("<button>").html("<i class='far fa-trash-alt'></i>").addClass("remove");
 
@@ -99,19 +102,62 @@ $(document).ready(function() {
         // Get the inputs
         var trainName = $("#trainName").val().trim();
         var trainDest= $("#trainDest").val().trim();
-        var trainArrival = $("#trainArr").val().trim();
+        var trainArrival = moment($("#trainArr").val().trim(), "HH:mm");
         var trainFreq = $("#trainFreq").val().trim();
 
         // Puts the train into the database.
         database.ref().child("trains").push({
             name: trainName,
             destination: trainDest,
-            arrival: trainArrival,
+            arrival: trainArrival.format("HH:mm"),
             frequency: trainFreq
         });
 
         // Clears the inputs
         $("#trainName, #trainDest, #trainArr, #trainFreq").val("");
+    });
+
+    // When the update button is clicked, the edit modal gets the current information into the fields.
+    $("#trainTable").on("click", ".update", function() {
+        // Fills in the modal.
+        let trainId = "#" + $(this).parent().parent().attr("id");
+        $("#editId").val(trainId);
+
+        $("#editName").val($(trainId + " .train-name").text());
+
+        $("#editDest").val($(trainId + " .train-destination").text());
+
+        let time = $(trainId + " .train-arrival").text();
+        $("#editArr").val(moment(time, "hh:mm A").format("HH:mm"));
+
+        $("#editFreq").val($(trainId + " .train-frequency").text());
+    });
+
+    // When changes are saved, then update the text and database.
+    $("#updateTrain").on("click", function() {
+        let trainId = $("#editId").val().substring(1);
+        let trainName = $("#editName").val().trim();
+        let trainDest = $("#editDest").val().trim();
+        let trainArr = moment($("#editArr").val().trim(), "HH:mm");
+        let trainFreq = $("#editFreq").val().trim();
+
+        // Updates the database
+        database.ref("trains/" + trainId).update({
+            name: trainName,
+            destination: trainDest,
+            arrival: trainArr.format("HH:mm"),
+            frequency: trainFreq
+        });
+
+        // Updates the table.
+        trainId = "#" + trainId;
+        $(trainId + " .train-name").text(trainName);
+        $(trainId + " .train-destination").text(trainDest);
+        $(trainId + " .train-arrival").text(trainArr.format("hh:mm A"));
+        $(trainId + " .train-frequency").text(trainFreq);
+
+        // Adjusts the arrival time
+        trainArriving();
     });
 
     // Sets a timer that updates the train schedule minutes to arrival every 1 minute (60 seconds)
