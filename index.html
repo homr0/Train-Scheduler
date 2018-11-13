@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#navMenu" data-offset="100">
     <header class="position-fixed w-100">
         <div class="container">
             <nav class="navbar navbar-light bg-light" id="navMenu">
@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <main data-spy="scroll" data-target="#navMenu" data-offset="0">
+    <main>
         <div class="container">
             <div class="jumbotron align-middle mb-0">
                 <h1 class="text-center">Train Hopper Express</h1>
@@ -40,10 +40,10 @@
                 <p class="text-center lead">Know when to hop on your train!</p>
             </div>
 
-            <div class="row my-3" id="viewTrains">
+            <div class="row my-3">
                 <div class="col">
                     <div class="card">
-                        <h2 class="card-header text-center">Current Train Schedule</h2>
+                        <h2 class="card-header text-center" id="viewTrains">Current Train Schedule</h2>
 
                         <div class="card-body table-responsive">
                             <table class="table" id="trainTable">
@@ -67,10 +67,10 @@
                 </div>
             </div>
 
-            <div class="row" id="addTrain">
+            <div class="row">
                 <div class="col">
                     <div class="card">
-                        <h2 class="card-header">Add a Train</h2>
+                        <h2 class="card-header" id="addTrain">Add a Train</h2>
 
                         <div class="card-body">
                             <form>
