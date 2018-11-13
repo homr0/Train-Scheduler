@@ -83,7 +83,10 @@ $(document).ready(function() {
                 "data-target": "#editTrain"
             });
 
-            var removeTrain = $("<button>").html("<i class='far fa-trash-alt'></i>").addClass("remove");
+            var removeTrain = $("<button>").html("<i class='far fa-trash-alt'></i>").addClass("remove").attr({
+                "data-toggle": "modal",
+                "data-target": "#removeTrain"
+            });
 
             var trainStatus = $("<td>").append(updateTrain, removeTrain);
 
@@ -158,6 +161,26 @@ $(document).ready(function() {
 
         // Adjusts the arrival time
         trainArriving();
+    });
+
+    // Sets up the train for deletion
+    $("#trainTable").on("click", ".remove", function() {
+        let trainId = $(this).parent().parent().attr("id");
+        $("#deleteId").val(trainId);
+
+        trainId = "#" + trainId;
+        $("#trainDeletion").text($(trainId + " .train-name").text());
+    });
+
+    // Deletes a train from the database.
+    $("#deleteTrain").on("click", function() {
+        let trainId = $("#deleteId").val();
+
+        // Removes the train from the database.
+        database.ref("trains/" + trainId).remove();
+
+        // Removes the train from the table
+        $("#trainTable #" + trainId).remove();
     });
 
     // Sets a timer that updates the train schedule minutes to arrival every 1 minute (60 seconds)
