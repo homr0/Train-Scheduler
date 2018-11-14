@@ -30,10 +30,14 @@ header .navbar {
     background-color: rgba(255, 191, 0, 0.1);
 }
 
-.nav-item .nav-link.active, button, .btn, .nav-item .nav-link:hover{
+.nav-item .nav-link.active, button, .btn, .nav-item .nav-link:hover, .btn:hover {
     background-color: rgba(255, 191, 0, 0.8);
     color: rgba(255, 255, 255, 0.9);
     font-weight: 700;
+}
+
+.nav-item .nav-link:hover, .btn:hover {
+    background-color: rgba(255, 191, 63, 0.9);
 }
 
 main {
@@ -75,8 +79,16 @@ button.update {
     background-color: rgba(0, 63, 127, 0.8);
 }
 
+button.update:hover, button.update:focus {
+    background-color: rgba(0, 127, 191, 0.8);
+}
+
 button.remove {
     background-color: rgba(127, 0, 0, 0.9);
+}
+
+button.remove:hover, button.remove:focus {
+    background-color: rgba(191, 0, 0, 0.9);
 }
 
 #addTrain label {
