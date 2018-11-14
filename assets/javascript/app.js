@@ -117,17 +117,20 @@ $(document).ready(function() {
             var trainAway = $("<td>").text(minutes).addClass("train-next");
 
             // Add a button for updating and removing the trains
-            var updateTrain = $("<button>").html("<i class='far fa-edit'></i>").addClass("update").attr({
+            var updateTrain = $("<button>").html("<i class='far fa-edit'></i>").addClass("btn update").attr({
                 "data-toggle": "modal",
                 "data-target": "#editTrain"
             });
 
-            var removeTrain = $("<button>").html("<i class='far fa-trash-alt'></i>").addClass("remove").attr({
+            var removeTrain = $("<button>").html("<i class='far fa-trash-alt'></i>").addClass("btn remove").attr({
                 "data-toggle": "modal",
                 "data-target": "#removeTrain"
             });
 
-            var trainStatus = $("<td>").append(updateTrain, removeTrain);
+            var trainStatus = $("<td>").addClass("btn-group").attr({
+                "role": "group",
+                "aria-label": "status buttons"
+            }).append(updateTrain, removeTrain);
 
             $(trainRow).append(trainName, trainDest, trainFreq, trainArr, trainAway, trainStatus);
 
