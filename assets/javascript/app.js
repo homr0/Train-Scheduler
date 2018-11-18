@@ -25,7 +25,7 @@ $(document).ready(function() {
         // The signed-in user info.
         var user = result.user;
         // console.log(user + ": " + token);
-      }).catch(function(error) {
+    }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -36,7 +36,19 @@ $(document).ready(function() {
         
         console.log(email + ": " + credential);
         console.log(errorCode + ": " + errorMessage);
-      });
+    });
+
+    // Watches for user status
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user) {
+            // User is signed in.
+            console.log("User is signed in");
+            $("main").show();
+        } else {
+            // User is signed out.
+            $("main").hide();
+        }
+    });
 
     // Assign the reference to the database
     var database = firebase.database();
